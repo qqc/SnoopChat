@@ -128,7 +128,7 @@ public class WifiAPActivity extends Activity {
     
     public void scanResultsHandler(List<ScanResult> scanResults)
     {
-    	//Log.d(TAG, "SCAN RESULTS RETURNED");
+    	Log.d(TAG, "SCAN RESULTS RETURNED");
     	if(null == scanResults)
 		{
 			Log.d(TAG, "scanResults is null");
