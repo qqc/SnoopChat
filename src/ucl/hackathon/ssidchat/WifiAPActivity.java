@@ -16,28 +16,37 @@ public class WifiAPActivity extends Activity {
     boolean wasAPEnabled = false;
     static WifiAP wifiAp;
     private WifiManager wifi;
-    static Button btnWifiToggle;
+    private static Button mBtnWifiToggle;
+    private Button mBtnChangeSSID;
     private EditText mSSIDInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_layout);
 
-        btnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
+        mBtnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
+        mBtnChangeSSID = (Button)findViewById(R.id.btn_changessid);
         mSSIDInput = (EditText)findViewById(R.id.txt_ssidinput);
 
         wifiAp = new WifiAP();
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
 
-        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
+        mBtnWifiToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	String ssid = mSSIDInput.getText().toString();
-            	wifiAp.setSSID(ssid);
+            	wifiAp.setSSID("Hello World");
                 wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
-                
             }
         });
+        
+        mBtnChangeSSID.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String ssid = mSSIDInput.getText().toString();
+				wifiAp.setSSID(ssid);
+				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
+			}
+		});
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|WindowManager.LayoutParams.FLAG_DIM_BEHIND);       
     }
@@ -68,10 +77,10 @@ public class WifiAPActivity extends Activity {
 
     public static void updateStatusDisplay() {
         if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {
-            btnWifiToggle.setText("Turn off");
+            mBtnWifiToggle.setText("Turn off");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_on);
         } else {
-            btnWifiToggle.setText("Turn on");
+            mBtnWifiToggle.setText("Turn on");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
         }
     }

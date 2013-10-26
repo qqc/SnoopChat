@@ -49,6 +49,20 @@ public class WifiAP extends Activity {
         boolean wifiApIsOn = getWifiAPState()==WIFI_AP_STATE_ENABLED || getWifiAPState()==WIFI_AP_STATE_ENABLING;
         new SetWifiAPTask(!wifiApIsOn,false,context).execute();
     }
+    
+    /**
+     * Reset the WiFi AP state
+     * @param wifihandler
+     * @author http://stackoverflow.com/a/7049074/1233435
+     */
+    public void resetWiFiAP(WifiManager wifihandler, Context context) {
+        if (wifi==null){
+            wifi = wifihandler;
+        }
+
+        boolean wifiApIsOn = getWifiAPState()==WIFI_AP_STATE_ENABLED || getWifiAPState()==WIFI_AP_STATE_ENABLING;
+        new ResetWifiAPTask(false,context).execute();
+    }
 
     /**
      * Enable/disable wifi
@@ -239,4 +253,69 @@ public class WifiAP extends Activity {
             return null;
         }
     }
+    
+    /**
+     * the AsyncTask to enable/disable the wifi ap
+     * @author http://stackoverflow.com/a/7049074/1233435
+     */
+    class ResetWifiAPTask extends AsyncTask<Void, Void, Void> {
+        boolean mFinish; //finalize or not (e.g. on exit)
+        ProgressDialog d;
+
+        /**
+         * enable/disable the wifi ap
+         * @param mode enable or disable wifi AP
+         * @param finish finalize or not (e.g. on exit)
+         * @param context the context of the calling activity
+         * @author http://stackoverflow.com/a/7049074/1233435
+         */
+        public ResetWifiAPTask(boolean finish, Context context) {
+            mFinish = finish;
+            d = new ProgressDialog(context);
+        }
+
+        /**
+         * do before background task runs
+         * @author http://stackoverflow.com/a/7049074/1233435
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            d.setTitle("Changing SSID...");
+            d.setMessage("...please wait a moment.");
+            d.show();
+        }
+
+        /**
+         * do after background task runs
+         * @param aVoid
+         * @author http://stackoverflow.com/a/7049074/1233435
+         */
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try {
+                d.dismiss();
+                WifiAPActivity.updateStatusDisplay();
+            } catch (IllegalArgumentException e) {
+
+            };
+            if (mFinish){
+                finish();
+            }
+        }
+
+        /**
+         * the background task to run
+         * @param params
+         * @author http://stackoverflow.com/a/7049074/1233435
+         */
+        @Override
+        protected Void doInBackground(Void... params) {
+            setWifiApEnabled(false);
+            setWifiApEnabled(true);
+            return null;
+        }
+    }
 }
+
