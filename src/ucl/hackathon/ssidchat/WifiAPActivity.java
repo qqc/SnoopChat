@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class WifiAPActivity extends Activity {
@@ -17,21 +17,25 @@ public class WifiAPActivity extends Activity {
     static WifiAP wifiAp;
     private WifiManager wifi;
     static Button btnWifiToggle;
+    private EditText mSSIDInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnWifiToggle = (Button)findViewById(R.id.btnWifiToggle);
+        btnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
+        mSSIDInput = (EditText)findViewById(R.id.txt_ssidinput);
 
         wifiAp = new WifiAP();
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
 
         btnWifiToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Log.d("SSIDChat", "clicked");
+            	String ssid = mSSIDInput.getText().toString();
+            	wifiAp.setSSID(ssid);
                 wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
+                
             }
         });
 

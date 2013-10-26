@@ -30,6 +30,7 @@ public class WifiAP extends Activity {
 
     private WifiManager wifi;
     private String TAG = "WifiAP";
+    private String mSSID;
 
     private int stateWifiWasIn = -1;
 
@@ -59,7 +60,7 @@ public class WifiAP extends Activity {
         Log.d(TAG, "*** setWifiApEnabled CALLED **** " + enabled);
 
         WifiConfiguration config = new WifiConfiguration();
-        config.SSID = "snoop dongers";
+        config.SSID = mSSID;
         config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
 
         //remember wirelesses current state
@@ -167,6 +168,11 @@ public class WifiAP extends Activity {
 
         Log.d(TAG, "getWifiAPState.state " + (state==-1?"UNKNOWN":WIFI_STATE_TEXTSTATE[state-constant]));
         return state;
+    }
+    
+    public void setSSID(String ssid)
+    {
+    	mSSID = ssid;
     }
 
     /**
