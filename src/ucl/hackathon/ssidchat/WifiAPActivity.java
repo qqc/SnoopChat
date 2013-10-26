@@ -76,6 +76,7 @@ public class WifiAPActivity extends Activity {
 				for(ScanResult result : scanResults)
 				{
 					String[] tokens = result.SSID.split("\\%");
+					for(String lel : tokens) { Log.d("WifiAPActivity", lel); }
 					if(tokens[0].equals("%"))
 					{
 						mLogAdapter.add(tokens[1]);
