@@ -55,7 +55,7 @@ public class WifiAPActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String ssid = mSSIDInput.getText().toString();
-				wifiAp.setSSID(ssid);
+				wifiAp.setSSID("qqq|" + ssid);
 				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
 			}
 		});
@@ -65,10 +65,13 @@ public class WifiAPActivity extends Activity {
 			public void onClick(View v) {
 				wifi.startScan();
 				List<ScanResult> scanResults = wifi.getScanResults();
-				mLogAdapter.clear();
 				for(ScanResult result : scanResults)
 				{
-					mLogAdapter.add(result.SSID + result.BSSID);
+					String[] tokens = result.SSID.split("|");
+					if(tokens[0].equals("qqq"))
+					{
+						mLogAdapter.add(tokens[1]);
+					}
 				}
 			}
 		}); 
