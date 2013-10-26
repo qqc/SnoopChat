@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Change SSID" />
+        android:text="Send Message" />
 
     <EditText
         android:id="@+id/txt_ssidinput"

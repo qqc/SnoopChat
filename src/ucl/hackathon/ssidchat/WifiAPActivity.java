@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -55,7 +56,8 @@ public class WifiAPActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String ssid = mSSIDInput.getText().toString();
-				wifiAp.setSSID("qqq|" + ssid);
+				mLogAdapter.add("(Me): " + ssid);
+				wifiAp.setSSID("%" + ssid);
 				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
 			}
 		});
@@ -65,10 +67,16 @@ public class WifiAPActivity extends Activity {
 			public void onClick(View v) {
 				wifi.startScan();
 				List<ScanResult> scanResults = wifi.getScanResults();
+				if(null == scanResults)
+				{
+					Log.d("WifiAPActivity", "getScanResults() returned null");
+					return;
+				}
+				
 				for(ScanResult result : scanResults)
 				{
-					String[] tokens = result.SSID.split("|");
-					if(tokens[0].equals("qqq"))
+					String[] tokens = result.SSID.split("\\%");
+					if(tokens[0].equals("%"))
 					{
 						mLogAdapter.add(tokens[1]);
 					}

@@ -281,7 +281,7 @@ public class WifiAP extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            d.setTitle("Changing SSID...");
+            d.setTitle("Sending message...");
             d.setMessage("...please wait a moment.");
             d.show();
         }
