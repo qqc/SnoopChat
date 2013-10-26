@@ -1,5 +1,6 @@
 package ucl.hackathon.ssidchat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -32,6 +33,7 @@ public class WifiAPActivity extends Activity {
     private ListView mMessageLog;
     private ArrayAdapter<String> mLogAdapter;
     private String mPrevMsg;
+    ArrayList<String> mroomList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class WifiAPActivity extends Activity {
         setContentView(R.layout.main_layout);
 
         mBtnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
+        mroomList = new ArrayList<String>();
         mBtnChangeSSID = (Button)findViewById(R.id.btn_changessid);
         mSSIDInput = (EditText)findViewById(R.id.txt_ssidinput);
         mMessageLog = (ListView)findViewById(R.id.messagelog);
@@ -77,6 +80,7 @@ public class WifiAPActivity extends Activity {
 			public void onClick(View v) {
 				String ssid = mSSIDInput.getText().toString();
 				mLogAdapter.add("(Me): " + ssid);
+				//
 				wifiAp.setSSID("%" + ssid);
 				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
 			}
@@ -130,6 +134,42 @@ public class WifiAPActivity extends Activity {
 				mPrevMsg = msg;
 			}
 		}
+    }
+    
+    public void updateRoomList(List <ScanResult> scanResults)
+    {
+    	for(ScanResult result : scanResults)
+		{
+		  String id = result.SSID.substring(1, 2);
+		  
+		  mroomList.clear();
+		  if (!mroomList.contains(id))
+		  {
+			  mroomList.add(id);
+		  }
+		  
+		}
+    }
+    
+    public String generateroomID()
+    {
+    	String id = new String();
+    	
+    	for (char c1 = 'a';c1<='z';c1++)
+    	{
+    		for (char c2 = 'a'; c2<='z';c2++)
+    		{
+    			id= "" + c1 + c2;
+    			if (!mroomList.contains(id))
+    			{
+    				mroomList.add(id);
+    				return id;
+    			}
+    		}
+    	}
+    	
+    	return "aa";  // at this point, all possible rooms are in use ( lol, are we dis popular) user redirected to public chat
+    	
     }
 
     public static void updateStatusDisplay() {
