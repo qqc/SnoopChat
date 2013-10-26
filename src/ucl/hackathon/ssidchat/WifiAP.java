@@ -3,7 +3,6 @@ package ucl.hackathon.ssidchat;
 import java.lang.reflect.Method;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -196,7 +195,7 @@ public class WifiAP extends Activity {
     class SetWifiAPTask extends AsyncTask<Void, Void, Void> {
         boolean mMode; //enable or disable wifi AP
         boolean mFinish; //finalize or not (e.g. on exit)
-        ProgressDialog d;
+        //ProgressDialog d;
 
         /**
          * enable/disable the wifi ap
@@ -208,7 +207,7 @@ public class WifiAP extends Activity {
         public SetWifiAPTask(boolean mode, boolean finish, Context context) {
             mMode = mode;
             mFinish = finish;
-            d = new ProgressDialog(context);
+            //d = new ProgressDialog(context);
         }
 
         /**
@@ -218,9 +217,9 @@ public class WifiAP extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            d.setTitle("Turning WiFi AP " + (mMode?"on":"off") + "...");
-            d.setMessage("...please wait a moment.");
-            d.show();
+//            d.setTitle("Turning WiFi AP " + (mMode?"on":"off") + "...");
+//            d.setMessage("...please wait a moment.");
+//            d.show();
         }
 
         /**
@@ -232,7 +231,7 @@ public class WifiAP extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             try {
-                d.dismiss();
+                //d.dismiss();
                 WifiAPActivity.updateStatusDisplay();
             } catch (IllegalArgumentException e) {
 
@@ -260,7 +259,7 @@ public class WifiAP extends Activity {
      */
     class ResetWifiAPTask extends AsyncTask<Void, Void, Void> {
         boolean mFinish; //finalize or not (e.g. on exit)
-        ProgressDialog d;
+        //ProgressDialog d;
 
         /**
          * enable/disable the wifi ap
@@ -271,7 +270,7 @@ public class WifiAP extends Activity {
          */
         public ResetWifiAPTask(boolean finish, Context context) {
             mFinish = finish;
-            d = new ProgressDialog(context);
+            //d = new ProgressDialog(context);
         }
 
         /**
@@ -281,9 +280,9 @@ public class WifiAP extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            d.setTitle("Sending message...");
-            d.setMessage("...please wait a moment.");
-            d.show();
+//            d.setTitle("Sending message...");
+//            d.setMessage("...please wait a moment.");
+//            d.show();
         }
 
         /**
@@ -295,7 +294,7 @@ public class WifiAP extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             try {
-                d.dismiss();
+                //d.dismiss();
                 WifiAPActivity.updateStatusDisplay();
             } catch (IllegalArgumentException e) {
 
@@ -318,4 +317,3 @@ public class WifiAP extends Activity {
         }
     }
 }
-

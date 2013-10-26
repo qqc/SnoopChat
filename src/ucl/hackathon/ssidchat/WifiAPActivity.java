@@ -19,17 +19,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 public class WifiAPActivity extends Activity {
-    //private String TAG = "WifiAPActivity";
+    private static final String TAG = "WifiAPActivity";
+    private static final char MAGIC_CHAR = '%';
 
     boolean wasAPEnabled = false;
     static WifiAP wifiAp;
     private WifiManager wifi;
-    private static Button mBtnWifiToggle;
-    private Button mBtnChangeSSID;
-    private EditText mSSIDInput;
+//    private static Button mBtnWifiToggle;
+    private static ProgressBar mProgressSpinner;
+    private static Button mBtnBroadcastMsg;
+    private static EditText mInputField;
     private ListView mMessageLog;
     private ArrayAdapter<String> mLogAdapter;
     private String mPrevMsg;
@@ -40,23 +44,23 @@ public class WifiAPActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-
-        mBtnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
         mroomList = new ArrayList<String>();
-        mBtnChangeSSID = (Button)findViewById(R.id.btn_changessid);
-        mSSIDInput = (EditText)findViewById(R.id.txt_ssidinput);
+//        mBtnWifiToggle = (Button)findViewById(R.id.btn_wifitoggle);
+        mBtnBroadcastMsg = (Button)findViewById(R.id.btn_broadcast);
+        mInputField = (EditText)findViewById(R.id.txt_ssidinput);
         mMessageLog = (ListView)findViewById(R.id.messagelog);
         mLogAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         mMessageLog.setAdapter(mLogAdapter);
+        mProgressSpinner = (ProgressBar)findViewById(R.id.progressbar);
         mPrevMsg = "";
         
         IntentFilter i = new IntentFilter(); 
-        i.addAction (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION); 
+        i.addAction (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(new BroadcastReceiver(){ 
               public void onReceive(Context c, Intent i) {
             	// Code to execute when SCAN_RESULTS_AVAILABLE_ACTION event occurs 
             	  WifiManager w = (WifiManager) c.getSystemService(Context.WIFI_SERVICE); 
-            	  scanResultsHandler(w.getScanResults()); // your method to handle Scan results
+            	  scanResultsHandler(w.getScanResults()); // Handles scan results.
             	  w.startScan();
               }
         }, i );
@@ -68,23 +72,35 @@ public class WifiAPActivity extends Activity {
             wifiLock.acquire();
         }
         wifi.startScan();
-
-        mBtnWifiToggle.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	wifiAp.setSSID("Hello World");
-                wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
-            }
-        });
         
-        mBtnChangeSSID.setOnClickListener(new View.OnClickListener() {
+        mBtnBroadcastMsg.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String ssid = mSSIDInput.getText().toString();
+				String ssid = mInputField.getText().toString();
+				if(true == ssid.isEmpty())
+				{
+					Toast.makeText(getApplicationContext(), "dude what the fuck", Toast.LENGTH_LONG).show();
+					return; // nope.avi
+				}
+				mProgressSpinner.setVisibility(View.VISIBLE);
+				mBtnBroadcastMsg.setEnabled(false);
+				mInputField.setText("");
+				mInputField.setEnabled(false);
+				
 				mLogAdapter.add("(Me): " + ssid);
                 // [ need code here that recognises what room the user is currently in, if any]
 				// change variable mcurrentroomID here
-				wifiAp.setSSID("%" + mcurrentroomID + ssid);
-				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
+				wifiAp.setSSID(MAGIC_CHAR + mcurrentroomID + ssid);
+				if(wifi.isWifiEnabled() == false)
+				{
+					Log.d(TAG, "Toggling WiFiAP");
+					wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
+				}
+				else
+				{
+					Log.d(TAG, "Resetting WiFiAP");
+					wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
+				}
 			}
 		});
 
@@ -117,16 +133,16 @@ public class WifiAPActivity extends Activity {
     
     public void scanResultsHandler(List<ScanResult> scanResults)
     {
-    	Log.d("WifiAPActivity", "SCAN RESULTS RETURNED");
+    	Log.d(TAG, "SCAN RESULTS RETURNED");
     	if(null == scanResults)
 		{
-			Log.d("WifiAPActivity", "getScanResults() returned null");
+			Log.d(TAG, "scanResults is null");
 			return;
 		}
 		
 		for(ScanResult result : scanResults)
 		{
-			if(result.SSID.charAt(0) == '%' && result.SSID.substring(1, 3) == mcurrentroomID)
+			if(result.SSID.charAt(0) == MAGIC_CHAR && result.SSID.substring(1, 3) == mcurrentroomID)
 			{
 				
 				String msg = result.SSID.substring(3);
@@ -176,12 +192,16 @@ public class WifiAPActivity extends Activity {
     }
 
     public static void updateStatusDisplay() {
-        if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {
+    	mProgressSpinner.setVisibility(View.INVISIBLE);
+    	mBtnBroadcastMsg.setEnabled(true);
+    	mInputField.setEnabled(true);
+    	/*
+    	if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {
             mBtnWifiToggle.setText("Turn off");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_on);
         } else {
             mBtnWifiToggle.setText("Turn on");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
-        }
+        }*/
     }
 }

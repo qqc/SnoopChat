@@ -5,31 +5,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_wifitoggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/btn_changessid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Send Message" />
-
-    <EditText
-        android:id="@+id/txt_ssidinput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btn_wifitoggle"
-        android:ems="10"
-        android:maxLength="31" />
-
     <ListView
         android:id="@+id/messagelog"
         android:layout_width="match_parent"
@@ -38,5 +13,35 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp" >
     </ListView>
+
+    <EditText
+        android:id="@+id/txt_ssidinput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_broadcast"
+        android:ems="10"
+        android:maxLength="31" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btn_broadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="14dp"
+        android:text="Broadcast Message" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_ssidinput"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="36dp"
+        android:paddingTop="5dp" />
 
 </RelativeLayout>
