@@ -82,8 +82,8 @@ public class WifiAPActivity extends Activity {
 				String ssid = mSSIDInput.getText().toString();
 				mLogAdapter.add("(Me): " + ssid);
                 // [ need code here that recognises what room the user is currently in, if any]
-				// change variable currentroomID here
-				wifiAp.setSSID("%" + currentroomID + ssid);
+				// change variable mcurrentroomID here
+				wifiAp.setSSID("%" + mcurrentroomID + ssid);
 				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
 			}
 		});
