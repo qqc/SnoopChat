@@ -13,18 +13,6 @@
         android:layout_alignParentTop="true"
         android:text="Button" />
 
-    <EditText
-        android:id="@+id/txt_ssidinput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btn_wifitoggle"
-        android:ems="10"
-        android:maxLength="31" >
-
-        <requestFocus />
-    </EditText>
-
     <Button
         android:id="@+id/btn_changessid"
         android:layout_width="wrap_content"
@@ -32,5 +20,23 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Change SSID" />
+
+    <EditText
+        android:id="@+id/txt_ssidinput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_wifitoggle"
+        android:ems="10"
+        android:maxLength="31" />
+
+    <ListView
+        android:id="@+id/messagelog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_ssidinput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp" >
+    </ListView>
 
 </RelativeLayout>
