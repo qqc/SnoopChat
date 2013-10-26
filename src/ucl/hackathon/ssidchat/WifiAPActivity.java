@@ -34,6 +34,7 @@ public class WifiAPActivity extends Activity {
     private ArrayAdapter<String> mLogAdapter;
     private String mPrevMsg;
     ArrayList<String> mroomList;
+    private String mcurrentroomID = "aa";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,9 @@ public class WifiAPActivity extends Activity {
 			public void onClick(View v) {
 				String ssid = mSSIDInput.getText().toString();
 				mLogAdapter.add("(Me): " + ssid);
-				//
-				wifiAp.setSSID("%" + ssid);
+                // [ need code here that recognises what room the user is currently in, if any]
+				// change variable currentroomID here
+				wifiAp.setSSID("%" + currentroomID + ssid);
 				wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
 			}
 		});
@@ -124,9 +126,10 @@ public class WifiAPActivity extends Activity {
 		
 		for(ScanResult result : scanResults)
 		{
-			if(result.SSID.charAt(0) == '%')
+			if(result.SSID.charAt(0) == '%' && result.SSID.substring(1, 3) == mcurrentroomID)
 			{
-				String msg = result.SSID.substring(1);
+				
+				String msg = result.SSID.substring(3);
 				if(mPrevMsg.equals(msg) == false)
 				{
 					mLogAdapter.add(msg);
