@@ -1,0 +1,47 @@
+!SESSION 2013-10-26 16:13:14.698 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2013-10-26 16:13:39.580
+!MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2013-10-26 16:13:40.903 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -data C:\Users\Aman\Desktop\SSIDChat -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2013-10-26 16:13:55.802
+!MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2013-10-26 16:19:35.154 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -data C:\Users\Aman\Desktop\SSIDChat -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.ui 4 4 2013-10-26 16:21:13.062
+!MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2013-10-26 22:25:13.804 -----------------------------------------------
+eclipse.buildId=v22.2.1-833290
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY com.google.i18n.inkstone.eclipse.LocalizationPlugin 4 0 2013-10-26 22:52:02.856
+!MESSAGE Could not get OAuth2 access token.
+!SESSION 2013-10-26 22:52:22.505 -----------------------------------------------
+eclipse.buildId=v22.2.1-833290
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY com.google.i18n.inkstone.eclipse.LocalizationPlugin 4 0 2013-10-26 22:52:55.859
+!MESSAGE Could not get OAuth2 access token.
