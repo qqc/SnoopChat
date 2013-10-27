@@ -210,4 +210,11 @@ public class WifiAPActivity extends Activity {
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
         }*/
     }
+    
+    public void viewRooms(View view)
+    {
+    	Intent intent = new Intent(this, chatRooms.class);
+    	intent.putStringArrayListExtra("mroomList", (ArrayList<String>) mroomList);
+    	startActivity(intent);
+    }
 }

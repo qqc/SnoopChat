@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/txt_ssidinput"
         android:layout_alignParentLeft="true"
-        android:text="Chat Room" />
+        android:text="Chat Room" 
+        android:onClick="viewRooms" />
 
 </RelativeLayout>
