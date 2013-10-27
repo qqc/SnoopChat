@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
@@ -37,6 +40,7 @@ public class WifiAPActivity extends Activity {
     private ListView mMessageLog;
     private ArrayAdapter<String> mLogAdapter;
     private String mPrevMsg;
+    private String mAlias;
     ArrayList<String> mroomList;
     private String mCurrentRoomID = "aa";
     private long mScanStartTime;
@@ -84,6 +88,33 @@ public class WifiAPActivity extends Activity {
         }
         wifi.startScan();
         
+        final SharedPreferences prefs = this.getSharedPreferences("ucl.hackathon.snoopchat", Context.MODE_PRIVATE);
+        prefs.edit().remove("ucl.hackathon.snoopchat.alias").commit();
+        final String savedAlias = prefs.getString("ucl.hackathon.snoopchat.alias", "");
+        if(savedAlias.isEmpty())
+        {
+        	AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        	alert.setTitle("Welcome");
+        	alert.setMessage("Please enter your alias");
+
+        	// Set an EditText view to get user input 
+        	final EditText input = new EditText(this);
+        	alert.setView(input);
+
+        	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int whichButton) {
+	        	mAlias = input.getText().toString();
+	        	Log.d("WifiAPActivity", "got alias: " + mAlias);
+	        	prefs.edit().putString("ucl.hackathon.snoopchat.alias", mAlias).commit();
+	        	mLogAdapter.add("(Broadcasting Alias...)");
+	        	wifiAp.setSSID("%&&" + mAlias);
+	        	wifiAp.refreshAP(wifi, WifiAPActivity.this);
+        	 }
+        	});
+        	alert.show();
+        }
+        
         mBtnBroadcastMsg.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -107,8 +138,8 @@ public class WifiAPActivity extends Activity {
 				{
 					// txtbox appears, asks for alias //TODO put user input into a variable. call the string variable 'name'
 					String name = new String();
-					AliasActivity alias = new AliasActivity();
-					alias.broadcastAlias(name);
+					// bad man code
+					name = "IKIRRU"; 	
 					firstTime = false;
 				}
 				wifiAp.setSSID(MAGIC_CHAR + mCurrentRoomID + ssid);
@@ -159,7 +190,6 @@ public class WifiAPActivity extends Activity {
 			  {
 				String msg = "";
 				
-				AliasActivity alias = new AliasActivity();
 				// generate alias form mac addresss
 				
 				Pair pair = new Pair();
