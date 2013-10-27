@@ -4,6 +4,11 @@ import java.util.Random;
 
 
 public abstract class SimpleEncryption {
+	
+	public int stringToInt(String inputString)
+	{
+		return Integer.parseInt("1234");
+	}
 
 	public int generateCode()
 	{
