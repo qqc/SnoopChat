@@ -67,12 +67,12 @@ public class WifiAP extends Activity {
      * @param wifihandler
      * @author http://stackoverflow.com/a/7049074/1233435
      */
-    public void resetAPStatus(WifiManager wifihandler, Context context) {
+    public void refreshAP(WifiManager wifihandler, Context context) {
         if (wifi==null){
             wifi = wifihandler;
         }
         
-        new ResetWifiAPTask(false,context).execute();
+        new RefreshWifiAPTask(false,context).execute();
     }
 
     /**
@@ -277,7 +277,7 @@ public class WifiAP extends Activity {
      * the AsyncTask to enable/disable the wifi ap
      * @author http://stackoverflow.com/a/7049074/1233435
      */
-    class ResetWifiAPTask extends AsyncTask<Void, Void, Void> {
+    class RefreshWifiAPTask extends AsyncTask<Void, Void, Void> {
         boolean mFinish; //finalize or not (e.g. on exit)
         //ProgressDialog d;
 
@@ -288,7 +288,7 @@ public class WifiAP extends Activity {
          * @param context the context of the calling activity
          * @author http://stackoverflow.com/a/7049074/1233435
          */
-        public ResetWifiAPTask(boolean finish, Context context) {
+        public RefreshWifiAPTask(boolean finish, Context context) {
             mFinish = finish;
             //d = new ProgressDialog(context);
         }
@@ -327,11 +327,17 @@ public class WifiAP extends Activity {
          */
         @Override
         protected Void doInBackground(Void... params) {
-            setWifiApEnabled(false);
-            Log.d("ResetWiFiAPTask", "WIFI AP DISABLED");
             setWifiApEnabled(true);
-            Log.d("ResetWiFiAPTask", "WIFI AP ENABLED");
+        	try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	setWifiApEnabled(false);
+        	wifi.startScan();
             return null;
         }
     }
+    
+    
 }

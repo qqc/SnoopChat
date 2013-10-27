@@ -96,16 +96,7 @@ public class WifiAPActivity extends Activity {
                 // [ need code here that recognises what room the user is currently in, if any]
 				// change variable mCurrentRoomID here
 				wifiAp.setSSID(MAGIC_CHAR + mCurrentRoomID + ssid);
-				if(wifi.isWifiEnabled() == false)
-				{
-					Log.d(TAG, "Toggling WiFiAP");
-					wifiAp.toggleAPStatus(wifi, WifiAPActivity.this);
-				}
-				else
-				{
-					Log.d(TAG, "Resetting WiFiAP");
-					wifiAp.resetAPStatus(wifi, WifiAPActivity.this);
-				}
+				wifiAp.refreshAP(wifi, WifiAPActivity.this);
 			}
 		});
 

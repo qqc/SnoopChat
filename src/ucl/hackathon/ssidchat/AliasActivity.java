@@ -42,7 +42,7 @@ public class AliasActivity extends Activity{
 		else
 		{
 			Log.d(TAG, "Resetting WiFiAP");
-			wifiAp.resetAPStatus(wifi, AliasActivity.this);
+			wifiAp.refreshAP(wifi, AliasActivity.this);
 		}
 		
 	}
