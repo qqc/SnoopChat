@@ -70,6 +70,7 @@ public class WifiAPActivity extends Activity {
 
         wifiAp = new WifiAP();
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        wifiAp.setAPStatusBlocking(wifi, false, WifiAPActivity.this);
         WifiLock wifiLock = wifi.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY , "MyWifiLock");
         if(!wifiLock.isHeld()){
             wifiLock.acquire();
@@ -86,7 +87,8 @@ public class WifiAPActivity extends Activity {
 					return; // nope.avi
 				}
 				mProgressSpinner.setVisibility(View.VISIBLE);
-				mBtnBroadcastMsg.setEnabled(false);
+//				mBtnBroadcastMsg.setEnabled(false);
+				mBtnBroadcastMsg.setVisibility(View.INVISIBLE);
 				mInputField.setText("");
 				mInputField.setEnabled(false);
 				
@@ -97,12 +99,12 @@ public class WifiAPActivity extends Activity {
 				if(wifi.isWifiEnabled() == false)
 				{
 					Log.d(TAG, "Toggling WiFiAP");
-					wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
+					wifiAp.toggleAPStatus(wifi, WifiAPActivity.this);
 				}
 				else
 				{
 					Log.d(TAG, "Resetting WiFiAP");
-					wifiAp.resetWiFiAP(wifi, WifiAPActivity.this);
+					wifiAp.resetAPStatus(wifi, WifiAPActivity.this);
 				}
 			}
 		});
@@ -115,7 +117,7 @@ public class WifiAPActivity extends Activity {
         super.onResume();
         if (wasAPEnabled) {
             if (wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLED && wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLING){
-                wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
+                wifiAp.toggleAPStatus(wifi, WifiAPActivity.this);
             }
         }
         updateStatusDisplay();
@@ -127,7 +129,7 @@ public class WifiAPActivity extends Activity {
         boolean wifiApIsOn = wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING;
         if (wifiApIsOn) {
             wasAPEnabled = true;
-            wifiAp.toggleWiFiAP(wifi, WifiAPActivity.this);
+            wifiAp.toggleAPStatus(wifi, WifiAPActivity.this);
         } else {
             wasAPEnabled = false;
         }
@@ -173,7 +175,7 @@ public class WifiAPActivity extends Activity {
 		}
     }
     
-    public String generateroomID()
+    public String generateRoomID()
     {
     	String id = new String();
     	
@@ -181,7 +183,7 @@ public class WifiAPActivity extends Activity {
     	{
     		for (char c2 = 'a'; c2<='z';c2++)
     		{
-    			id= "" + c1 + c2;
+    			id = "" + c1 + c2;
     			if (!mroomList.contains(id))
     			{
     				mroomList.add(id);
@@ -196,7 +198,8 @@ public class WifiAPActivity extends Activity {
 
     public static void updateStatusDisplay() {
     	mProgressSpinner.setVisibility(View.INVISIBLE);
-    	mBtnBroadcastMsg.setEnabled(true);
+//    	mBtnBroadcastMsg.setEnabled(true);
+    	mBtnBroadcastMsg.setVisibility(View.VISIBLE);
     	mInputField.setEnabled(true);
     	/*
     	if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {

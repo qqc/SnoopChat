@@ -26,22 +26,29 @@
         <requestFocus />
     </EditText>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_ssidinput"
+        android:layout_alignRight="@+id/btn_broadcast"
+        android:layout_marginRight="64dp"
+        android:paddingTop="5dp" />
+
     <Button
         android:id="@+id/btn_broadcast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="14dp"
         android:text="Broadcast Message" />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
+    <Button
+        android:id="@+id/btn_chatroom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/txt_ssidinput"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="36dp"
-        android:paddingTop="5dp" />
+        android:text="Chat Room" />
 
 </RelativeLayout>

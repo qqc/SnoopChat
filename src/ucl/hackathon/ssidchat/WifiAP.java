@@ -40,7 +40,7 @@ public class WifiAP extends Activity {
      * @param wifihandler
      * @author http://stackoverflow.com/a/7049074/1233435
      */
-    public void toggleWiFiAP(WifiManager wifihandler, Context context) {
+    public void toggleAPStatus(WifiManager wifihandler, Context context) {
         if (wifi==null){
             wifi = wifihandler;
         }
@@ -50,16 +50,28 @@ public class WifiAP extends Activity {
     }
     
     /**
+     * Set the WiFi AP state
+     * @param wifihandler
+     * @param false = disabled, true = enabled
+     * @author http://stackoverflow.com/a/7049074/1233435
+     */
+    public void setAPStatusBlocking(WifiManager wifihandler, boolean status, Context context) {
+        if (wifi==null){
+            wifi = wifihandler;
+        }
+        setWifiApEnabled(status);
+    }
+    
+    /**
      * Reset the WiFi AP state
      * @param wifihandler
      * @author http://stackoverflow.com/a/7049074/1233435
      */
-    public void resetWiFiAP(WifiManager wifihandler, Context context) {
+    public void resetAPStatus(WifiManager wifihandler, Context context) {
         if (wifi==null){
             wifi = wifihandler;
         }
-
-        boolean wifiApIsOn = getWifiAPState()==WIFI_AP_STATE_ENABLED || getWifiAPState()==WIFI_AP_STATE_ENABLING;
+        
         new ResetWifiAPTask(false,context).execute();
     }
 
@@ -256,6 +268,7 @@ public class WifiAP extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             setWifiApEnabled(mMode);
+            Log.d("SetWiFiAPTask", "WIFI AP SET TO: " + Boolean.toString(mMode));
             return null;
         }
     }
@@ -287,9 +300,6 @@ public class WifiAP extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            d.setTitle("Sending message...");
-//            d.setMessage("...please wait a moment.");
-//            d.show();
         }
 
         /**
@@ -301,7 +311,6 @@ public class WifiAP extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             try {
-                //d.dismiss();
                 WifiAPActivity.updateStatusDisplay();
             } catch (IllegalArgumentException e) {
 
@@ -319,7 +328,9 @@ public class WifiAP extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             setWifiApEnabled(false);
+            Log.d("ResetWiFiAPTask", "WIFI AP DISABLED");
             setWifiApEnabled(true);
+            Log.d("ResetWiFiAPTask", "WIFI AP ENABLED");
             return null;
         }
     }
