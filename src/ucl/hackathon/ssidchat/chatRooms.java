@@ -10,7 +10,9 @@ public class chatRooms extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_room_layout);
-        //ArrayList<String> mRoomList = data.getStringArrayListExtra("mRoomList");
+        ucl.hackathon.ssidchat.WifiAPActivity prevactivity = new ucl.hackathon.ssidchat.WifiAPActivity();
+        ArrayList<String> mRoomList = prevactivity.getmRoomList();
+        
         
 	}
 }

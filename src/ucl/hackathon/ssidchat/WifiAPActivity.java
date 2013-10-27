@@ -195,6 +195,11 @@ public class WifiAPActivity extends Activity {
     	return "aa";  // at this point, all possible rooms are in use ( lol, are we dis popular) user redirected to public chat
     	
     }
+    
+    public ArrayList<String> getmRoomList()
+    {
+    	return mroomList;
+    }
 
     public static void updateStatusDisplay() {
     	mProgressSpinner.setVisibility(View.INVISIBLE);
