@@ -74,7 +74,14 @@ public class WifiAP extends Activity {
 
         WifiConfiguration config = new WifiConfiguration();
         config.SSID = mSSID;
-        config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+        config.preSharedKey = "\"lemonadekeyfaces\"";
+        //config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
         //remember wirelesses current state
         if (enabled && stateWifiWasIn==-1){
