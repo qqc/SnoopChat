@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/btn_broadcast"
         android:ems="10"
-        android:maxLength="31" >
+        android:maxLength="28" >
 
         <requestFocus />
     </EditText>

@@ -38,7 +38,9 @@ public class WifiAPActivity extends Activity {
     private ArrayAdapter<String> mLogAdapter;
     private String mPrevMsg;
     ArrayList<String> mroomList;
-    private String mcurrentroomID = "aa";
+    private String mCurrentRoomID = "aa";
+    private long mScanStartTime;
+    private long mScanStopTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class WifiAPActivity extends Activity {
             	  WifiManager w = (WifiManager) c.getSystemService(Context.WIFI_SERVICE); 
             	  scanResultsHandler(w.getScanResults()); // Handles scan results.
             	  w.startScan();
+            	  mScanStartTime = System.currentTimeMillis();
               }
         }, i );
 
@@ -89,8 +92,8 @@ public class WifiAPActivity extends Activity {
 				
 				mLogAdapter.add("(Me): " + ssid);
                 // [ need code here that recognises what room the user is currently in, if any]
-				// change variable mcurrentroomID here
-				wifiAp.setSSID(MAGIC_CHAR + mcurrentroomID + ssid);
+				// change variable mCurrentRoomID here
+				wifiAp.setSSID(MAGIC_CHAR + mCurrentRoomID + ssid);
 				if(wifi.isWifiEnabled() == false)
 				{
 					Log.d(TAG, "Toggling WiFiAP");
@@ -133,7 +136,8 @@ public class WifiAPActivity extends Activity {
     
     public void scanResultsHandler(List<ScanResult> scanResults)
     {
-    	Log.d(TAG, "SCAN RESULTS RETURNED");
+    	mScanStopTime = System.currentTimeMillis();
+    	Log.d(TAG, "SCAN RESULTS RETURNED IN " + Long.toString(mScanStopTime - mScanStartTime) + " ms");
     	if(null == scanResults)
 		{
 			Log.d(TAG, "scanResults is null");
@@ -142,9 +146,8 @@ public class WifiAPActivity extends Activity {
 		
 		for(ScanResult result : scanResults)
 		{
-			if(result.SSID.charAt(0) == MAGIC_CHAR && result.SSID.substring(1, 3) == mcurrentroomID)
+			if(result.SSID.charAt(0) == MAGIC_CHAR && result.SSID.substring(1, 3).equals(mCurrentRoomID))
 			{
-				
 				String msg = result.SSID.substring(3);
 				if(mPrevMsg.equals(msg) == false)
 				{
