@@ -1,6 +1,37 @@
 package ucl.hackathon.ssidchat;
 
+import java.util.Random;
+
 public abstract class Encryption {
+	
+	// this method shouldn't be in this class, it's just here to show you how to use the functions
+	// KEYS SHOULD ONLY BE GENERATED ONCE EACH TIME THE APP STARTS
+	// ************
+	public void generateKeys()
+	{
+		int myPrivateKey = 0;
+		int myPublicKey = 0;
+		int x, y;
+		int xy = 0;
+		int smallerxy = 1;
+		
+		while(myPrivateKey < 2 || myPrivateKey == smallerxy)
+		{	
+			x = generatePrime();
+			y = generatePrime();
+			
+			xy = x*y;
+			
+			smallerxy = (x-1)*(y-1)+1;
+			
+			myPrivateKey = findLargestFactor(smallerxy);
+		}
+		
+		myPublicKey = smallerxy/myPrivateKey;
+		
+		//encryptString("enter string here",myPublicKey,xy);
+	}
+	//**************
 	
 	public String encryptString(String unencryptedString, double theirPublicKey, double xy)
 	{
@@ -24,6 +55,28 @@ public abstract class Encryption {
 		}
 		
 		return stringBuilder.toString();
+	}
+	
+	public int generatePrime()
+	{
+		Random randomGenerator = new Random();
+		
+		int[] primeArray = {13,17,19,23,29,31,37,41};
+		int index = randomGenerator.nextInt(primeArray.length);
+		
+		return primeArray[index];
+	}
+	
+	public int findLargestFactor(int n)
+	{
+		int largest = 0;
+		
+		for (int i = 1;i<n;i++)
+            if ( n % i == 0 )
+                if ( i > largest )
+                    largest = i;
+		
+		return largest;
 	}
 	
 	private double RSAEncryption(double input, double theirPublicKey, double xy)
