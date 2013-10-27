@@ -1,3 +1,5 @@
+package ucl.hackathon.ssidchat;
+
 import java.util.Random;
 
 

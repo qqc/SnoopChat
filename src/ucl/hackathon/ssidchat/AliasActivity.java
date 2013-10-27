@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 public class AliasActivity extends Activity{
 	
