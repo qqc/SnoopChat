@@ -12,22 +12,12 @@ public class AliasActivity extends Activity{
 	private static final String TAG = "WifiAPActivity";
     private static final char MAGIC_CHAR = '%';
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		AliasActivity start = new AliasActivity();
-		
-		start.broadcastAlias(MAGIC_CHAR + "&&" + "MYALIAS"); //TODO replace "MY ALIAS" with text from UI object
 
-	}
 	
 	
 	public void broadcastAlias(String myAlias)
 	{
-		String ssid = myAlias;
+		String ssid = MAGIC_CHAR + "&&" + myAlias;
 		
 		wifiAp = new WifiAP();
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);

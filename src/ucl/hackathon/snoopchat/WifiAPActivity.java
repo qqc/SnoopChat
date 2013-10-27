@@ -3,8 +3,6 @@ package ucl.hackathon.snoopchat;
 import java.util.ArrayList;
 import java.util.List;
 
-import ucl.hackathon.snoopchat.R;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,7 +41,15 @@ public class WifiAPActivity extends Activity {
     private String mCurrentRoomID = "aa";
     private long mScanStartTime;
     private long mScanStopTime;
-
+    private boolean firstTime = true;
+    List<Pair> macAddressList = new ArrayList<Pair>();
+    
+    private static class Pair
+    {
+    	public String alias;
+    	public String mac;
+    };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +63,6 @@ public class WifiAPActivity extends Activity {
         mMessageLog.setAdapter(mLogAdapter);
         mProgressSpinner = (ProgressBar)findViewById(R.id.progressbar);
         mPrevMsg = "";
-        
         IntentFilter i = new IntentFilter(); 
         i.addAction (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(new BroadcastReceiver(){ 
@@ -97,6 +102,15 @@ public class WifiAPActivity extends Activity {
 				mLogAdapter.add("(Me): " + ssid);
                 // [ need code here that recognises what room the user is currently in, if any]
 				// change variable mCurrentRoomID here
+				
+				if ( firstTime)
+				{
+					// txtbox appears, asks for alias //TODO put user input into a variable. call the string variable 'name'
+					String name = new String();
+					AliasActivity alias = new AliasActivity();
+					alias.broadcastAlias(name);
+					firstTime = false;
+				}
 				wifiAp.setSSID(MAGIC_CHAR + mCurrentRoomID + ssid);
 				wifiAp.refreshAP(wifi, WifiAPActivity.this);
 			}
@@ -141,16 +155,50 @@ public class WifiAPActivity extends Activity {
 		
 		for(ScanResult result : scanResults)
 		{
-			if(result.SSID.charAt(0) == MAGIC_CHAR && result.SSID.substring(1, 3).equals(mCurrentRoomID))
-			{
-				String msg = result.SSID.substring(3);
+			if(result.SSID.charAt(0) == MAGIC_CHAR) 
+			  {
+				String msg = "";
+				
+				AliasActivity alias = new AliasActivity();
+				// generate alias form mac addresss
+				
+				Pair pair = new Pair();
+				pair.alias = "el";
+				pair.mac = result.BSSID;
+				
+				if (result.SSID.substring(1, 3).equals(mCurrentRoomID))
+				{
+					msg = result.SSID.substring(3);
+				}
+				else if (result.SSID.substring(1, 3).equals("&&") && ExistsMacaddwithBlankName(pair))
+				{
+					macAddressList.add(pair);
+				}
+				
 				if(mPrevMsg.equals(msg) == false)
 				{
 					mLogAdapter.add(msg);
 				}
 				mPrevMsg = msg;
+				
 			}
 		}
+    }
+    
+    public boolean ExistsMacaddwithBlankName( Pair pair)
+    {
+    	
+    	for( int index = 0 ; index  <= macAddressList.size();index++)
+    	{
+    			if ( macAddressList.get(index).mac.equals(pair.mac))
+    			{
+    				if (macAddressList.get(index).alias.equals(""))
+    				{
+    					return true;
+    				}
+    			}
+    	}
+    	return false;
     }
     
     public void updateRoomList(List <ScanResult> scanResults)
